@@ -30,7 +30,12 @@ CXXFLAGS+=-msse4.2 -mpclmul $(BITS) $(WARNING_FLAGS) $(OPT_FLAGS)
 CFLAGS+=-msse4.2 -mpclmul $(BITS) $(WARNING_FLAGS) $(OPT_FLAGS)
 
 BINARIES=crc32c_test crc32cbench
-all: $(BINARIES)
+LIBRARIES=libcrc32c.a
+
+all: $(BINARIES) $(LIBRARIES)
+
+libcrc32c.a: $(OBJECTS)
+	$(AR) cr $@ $(OBJECTS)
 
 crc32c_test: crc32c_test.o $(OBJECTS)
 	$(CXX) -o $@ $^ $(CXXFLAGS)
@@ -39,7 +44,7 @@ crc32cbench: crc32cbench.o $(OBJECTS)
 	$(CXX) -o $@ $^ $(CXXFLAGS)
 
 clean:
-	$(RM) $(BINARIES) *.o
+	$(RM) $(BINARIES) $(LIBRARIES) *.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
