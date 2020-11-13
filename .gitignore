@@ -1,0 +1,4 @@
+*.o
+*.a
+crc32c/crc32c_test
+crc32c/crc32cbench
